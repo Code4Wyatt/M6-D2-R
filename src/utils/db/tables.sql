@@ -11,4 +11,18 @@ CREATE TABLE IF NOT EXISTS product
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now(),
     CONSTRAINT product_pkey PRIMARY KEY (product_id)
+);
+
+CREATE TABLE IF NOT EXISTS review
+(
+    review_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    comment text NOT NULL,
+    rate integer NOT NULL,
+    product_id integer,
+    created_at timestamp with time zone DEFAULT now(),
+    CONSTRAINT review_pkey PRIMARY KEY (review_id),
+    CONSTRAINT review_product_id_fkey FOREIGN KEY (product_id)
+        REFERENCES public.product (product_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
