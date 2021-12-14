@@ -1,18 +1,23 @@
 import fs from "fs-extra";
 import path from "path";
+import pool from "./connect.js";
 
-const readSQLFile = async () => {
+console.log(process.env);
+
+const createTables = async () => {
     try {
-        const filepath = path.join(process.cwd(), './src/utils/db/tables.sql');
-        const fileContentAsBuffer = await fs.readFile(filepath);
+        const filePath = path.join(process.cwd(), './src/utils/db/tables.sql');
+        const fileContentAsBuffer = await fs.readFile(filePath);
         const fileContentAsString = fileContentAsBuffer.toString();
+        console.log(fileContentAsString);
         return fileContentAsString;  
+        
     } catch (error) {
         console.log("Cannot read the SQL file due to following error: ", error);
     }
 };
 
 (async () => {
-    const sqlString = await readSQLFile();
-    console.log(sqlString);
+    await createTables();
+    
 })();
