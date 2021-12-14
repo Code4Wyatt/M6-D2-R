@@ -19,7 +19,7 @@ productRouter.post("/", async (req, res, next) => {
 }
 )
 
-//Get All Products
+// Get All Products
 productRouter.get("/", async (req, res, next) => {
     try {
         const result = await pool.query("SELECT * FROM product;");
@@ -29,7 +29,7 @@ productRouter.get("/", async (req, res, next) => {
     }
 });
 
-//Get Specific Product
+// Get Specific Product
 productRouter.get("/:id", async (req, res, next) => {
     try {
         const result = await pool.query("SELECT * FROM product WHERE product_id = $1", 
@@ -45,7 +45,7 @@ productRouter.get("/:id", async (req, res, next) => {
     }
 });
 
-//Edit Product
+// Edit Product
 productRouter.put("/:id", async (req, res, next) => {
     try {
         const updateStatement = Object.entries(req.body).map(([key, value]) => `${key} = '${value}'`).join(", ");
@@ -58,7 +58,7 @@ productRouter.put("/:id", async (req, res, next) => {
     }
 });
 
-//Delete Product
+// Delete Product
 productRouter.delete("/:id", async (req, res, next) => {
     try {
         const query = `DELETE FROM product WHERE product_id = ${req.params.id};`;
