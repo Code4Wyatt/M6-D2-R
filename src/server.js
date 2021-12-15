@@ -10,7 +10,7 @@ server.use(cors());
 
 server.use("/product", productRouter);
 
-server.listen(process.env.PORT || 5001, () => {
+server.listen(process.env.PORT || 5432, () => {
     console.log("Server is running!");
     testDbConnection();
 })
