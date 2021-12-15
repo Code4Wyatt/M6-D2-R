@@ -4,4 +4,4 @@ import Review from "./review.js";
 Product.hasMany(Review, { onDelete: "CASCADE" });
 Review.belongsTo(Product, { onDelete: "CASCADE" });
 
-export { Product, Review };
+export default { Product, Review };

@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const { PGPORT, PGUSER, PGDATABASE, PGPASSWORD,NODE_ENV } = process.env;
+const { PGDATABASE, PGUSER, PGPASSWORD, PGPORT, PGHOST, NODE_ENV } = process.env;
 
 const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
     port: PGPORT,
@@ -18,11 +18,13 @@ const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
 
 export const connectDB = async() => {
     try {
-       await sequelize.authenticate();
+       await sequelize.authenticate({logging: false});
        console.log("Database is authenticated");
        await sequelize.sync();
        console.log("DB connection established");
     } catch (error) {
-       console.log(error);
+       console.log("Failed to authenticate", error);
     }
 };
+
+export default sequelize;

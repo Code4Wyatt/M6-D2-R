@@ -11,7 +11,7 @@ server.use(cors());
 
 server.use("/product", productRouter);
 
-server.listen(process.env.PORT || 5432, () => {
+server.listen(process.env.PORT || 5432, async () => {
     console.log("Server is running!");
     await connectDB();
 })

@@ -1,29 +1,28 @@
-import { Router } from "express";
+import { response, Router } from "express";
 import pool from "../../utils/db/connect.js";
 import moment from "moment";
+import db from "../../utils/db/models/index.js";
 
+const {Product} = db;
 const productRouter = Router();
 
 // Create Product
 productRouter.post("/", async (req, res, next) => {
     try {
-        const productCreateResponse = await pool.query(
-            "INSERT INTO product(name,description,brand,image_url,price,category) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
-            Object.values(req.body)
-        );
-        res.status(201).send(productCreateResponse.rows[0]);
+      console.log(req.body);
+      const product = await Product.create(req.body);
+      res.send(product);
     } catch (error) {
-        res.status(500).send({ message: error.message });
-        console.log(error.message);
+        console.log(error);
+        next(error);
     }
-}
-)
+});
 
 //Get All Products
 productRouter.get("/", async (req, res, next) => {
     try {
-        const result = await pool.query("SELECT * FROM product;");
-        res.send(result.rows);
+        const allProducts = await Product.findAll();
+        res.send(allProducts);
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -32,47 +31,51 @@ productRouter.get("/", async (req, res, next) => {
 //Get Specific Product
 productRouter.get("/:id", async (req, res, next) => {
     try {
-        const result = await pool.query("SELECT * FROM product WHERE product_id = $1",
-            [req.params.id]
-        );
-        if (result.rows[0]) {
-            res.send(result.rows[0]);
+        const product = await Product.findByPk(req.params.id);
+        if (product) {
+            res.send(product);
         } else {
-            res.status(404).send(`Product with id ${req.params.id} not found.`);
+            res.status(404).send("Product not found");
         }
     } catch (error) {
-        res.status(500).send({ message: error.message });
+        console.log(error);
+        next(error);
     }
 });
 
 //Edit Product
 productRouter.put("/:id", async (req, res, next) => {
     try {
-        const valuesInTheBody = Object.values(req.body);
-        const numberOfValues = valuesInTheBody.length;
-        const updateStatement = Object.entries(req.body)
-            .map(([key, value], i) => `${key}=$${i + 1}`)
-            .join(",");
-        const query = `UPDATE product SET ${updateStatement} WHERE product_id=$${numberOfValues + 1
-            } RETURNING *;`;
-        const updateResult = await pool.query(query, [
-            ...valuesInTheBody,
-            req.params.id,
-        ]);
-        res.status(201).send(updateResult.rows[0]);
+        const updateProduct = await Product.update(req.body, {
+            where: { id: req.params.id },
+            returning: true,
+        });
+
+        res.send(updateProduct[1][0]);
     } catch (error) {
-        res.status(500).send({ message: error.message });
+       console.log(error);
+       next(error);
     }
 });
 
 //Delete Product
 productRouter.delete("/:id", async (req, res, next) => {
     try {
-        const query = `DELETE FROM product WHERE product_id = ${req.params.id};`;
-        await pool.query(query);
-        res.status(204).send();
+        const deleteProduct = await Product.destroy({
+            where: { 
+                id: req.params.id,
+             },
+        });
+
+        if (deleteProduct > 0) {
+            res.send("Ok");
+        } else {
+            res.status(404).send("Not found");
+        }
     } catch (error) {
-        res.status(500).send({ message: error.message })
+        console.log(error);
+        next(error);
     }
 });
+
 export default productRouter;
