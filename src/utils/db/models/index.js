@@ -2,6 +2,7 @@ import Product from "./product.js";
 import Review from "./review.js";
 import User from "./user.js";
 import Category from "./category.js";
+import ProductCategory from "./productCategory.js";
 
 // One to many product to reviews, one product, many reviews
 Product.hasMany(Review, { onDelete: "CASCADE" });
@@ -17,8 +18,8 @@ Product.belongsToMany(Category, {
     onDelete: "CASCADE",
 });
 Category.belongsToMany(Product, {
-    though: ProductCategory,
+    through: ProductCategory,
     onDelete: "CASCADE",
 });
 
-export default { Product, Review };
+export default { Category, Product, Review, User, ProductCategory };

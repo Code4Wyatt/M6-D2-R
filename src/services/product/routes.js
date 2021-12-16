@@ -1,9 +1,8 @@
-import { response, Router } from "express";
-import pool from "../../utils/db/connect.js";
-import moment from "moment";
-import db from "../../utils/db/models/index.js";
+import express from "express";
+import { Router } from "express";
+import { Category, Product, User, Review, ProductCategory } from "../../utils/db/models/index.js";
+import { Op } from "sequelize";
 
-const {Product} = db;
 const productRouter = Router();
 
 // Create Product
@@ -18,17 +17,17 @@ productRouter.post("/", async (req, res, next) => {
     }
 });
 
-//Get All Products
+// Get All Products
 productRouter.get("/", async (req, res, next) => {
     try {
-        const allProducts = await Product.findAll();
+        const allProducts = await Product.findAll( {include: [ User, Review ]});
         res.send(allProducts);
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
 });
 
-//Get Specific Product
+// Get Specific Product
 productRouter.get("/:id", async (req, res, next) => {
     try {
         const product = await Product.findByPk(req.params.id);
@@ -43,7 +42,7 @@ productRouter.get("/:id", async (req, res, next) => {
     }
 });
 
-//Edit Product
+// Edit Product
 productRouter.put("/:id", async (req, res, next) => {
     try {
         const updateProduct = await Product.update(req.body, {
@@ -58,7 +57,7 @@ productRouter.put("/:id", async (req, res, next) => {
     }
 });
 
-//Delete Product
+// Delete Product
 productRouter.delete("/:id", async (req, res, next) => {
     try {
         const deleteProduct = await Product.destroy({

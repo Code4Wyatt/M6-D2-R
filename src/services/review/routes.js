@@ -1,5 +1,5 @@
 import express from "express";
-import {Products, Review} from "../../db/models/index.js";
+import {Products, Review} from "../../utils/db/models/index.js";
 import { Op } from "sequelize";
 
 const reviewRouter = express.Router();

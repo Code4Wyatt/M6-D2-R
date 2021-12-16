@@ -4,7 +4,7 @@ import s from "sequelize";
 
 const { DataTypes } = s;
 
-const Category = sequelize.define('Category', { 
+const Category = sequelize.define('category', { 
     id: {
         primaryKey: true,
         type: DataTypes.UUID,
