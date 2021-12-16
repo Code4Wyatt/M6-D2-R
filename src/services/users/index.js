@@ -76,3 +76,36 @@ usersRouter.get("/:id", async (req, res, next) => {
         next(error);
     }
 });
+
+usersRouter.put("/:id", async(req, res, next) => {
+    try {
+        const updateUser = await User.update(req.body, {
+            where: { id: req.params.id },
+            returning: true,
+        });
+
+        res.send(updatedUser[1][0]);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
+usersRouter.delete("/:id", async (req, res, next) => {
+    try {
+        const result = await User.destroy({
+            where: { id: req.params.id,},
+        });
+
+        if (result > 0) {
+            res.send("ok");
+        } else {
+            res.status(404).send("Not found");
+        }
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
+export default usersRouter;
