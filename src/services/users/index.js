@@ -29,7 +29,7 @@ usersRouter.get("/", async (req, res, next) => {
                 }),
             },
             include: [
-                { model: Review attributes: { exclude: ["realTimeValue"] } },
+                { model: Review, attributes: { exclude: ["realTimeValue"] } },
             ],
             limit: req.query.limit,
             offset: parseInt(req.query.limit * req.query.page),
