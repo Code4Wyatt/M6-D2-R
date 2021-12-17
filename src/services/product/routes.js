@@ -23,7 +23,8 @@ productRouter.get("/", async (req, res, next) => {
         const allProducts = await Product.findAll( {include: [ User, Review ]});
         res.send(allProducts);
     } catch (error) {
-        res.status(500).send({ message: error.message });
+        console.log(error);
+        next(error);
     }
 });
 
@@ -37,7 +38,8 @@ productRouter.get("/acoustic", async (req, res, next) => {
         {limit: 10});
         res.send(allProductsByCategory);
     } catch (error) {
-        res.status(500).send({ message: error.message });
+        console.log(error);
+        next(error);
     }
 });
 
