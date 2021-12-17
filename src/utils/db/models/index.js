@@ -9,6 +9,10 @@ import Cart from "./cart.js";
 Product.hasMany(Review, { onDelete: "CASCADE" });
 Review.belongsTo(Product, { onDelete: "CASCADE" });
 
+// One to many product to productCategories, one product, many productCategories
+Product.hasMany(ProductCategory, { onDelete: "CASCADE" });
+ProductCategory.belongsTo(Product, { onDelete: "CASCADE" });
+
 // One to many between users and product
 User.hasMany(Product, { onDelete: "CASCADE" });
 Product.belongsTo(User, { onDelete: "CASCADE" });

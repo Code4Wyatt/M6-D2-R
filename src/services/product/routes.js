@@ -27,6 +27,19 @@ productRouter.get("/", async (req, res, next) => {
     }
 });
 
+// Get All Products
+productRouter.get("/acoustic", async (req, res, next) => {
+    try {
+        const allProductsByCategory = await Product.findAll( {where: {
+            category:"Acoustic"
+        },
+        include: [ ProductCategory ]});
+        res.send(allProductsByCategory);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
+
 // Get Specific Product
 productRouter.get("/:id", async (req, res, next) => {
     try {
