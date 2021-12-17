@@ -1,8 +1,8 @@
 import express from "express";
-import { users } from "../../data/users.js";
-import { User, Article } from "../../utils/db/models/index.js";
+// import { users } from "../../data/users.js";
+import { User } from "../../utils/db/models/index.js";
 import { Op } from "sequelize";
-import { noExtendRight } from "sequelize/dist/lib/operators";
+
 
 const usersRouter = express.Router();
 

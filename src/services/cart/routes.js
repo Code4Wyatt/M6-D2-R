@@ -17,7 +17,11 @@ cartRouter.post("/", async (req, res, next) => {
 
 cartRouter.get("/", async (req, res, next) => {
     try {
-       const cartData = await Cart.findAll();
+       const cartData = await Cart.findAll({ 
+           where: { 
+               ...(req.query.productId > 0)
+           }
+       });
        res.send(cartData);
     } catch (error) {
         console.log(error);
@@ -37,7 +41,7 @@ cartRouter.put("/:id", async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
 
 cartRouter.delete("/:id", async (req, res, next) => {
     try {
@@ -46,7 +50,7 @@ cartRouter.delete("/:id", async (req, res, next) => {
                 id: req.params.id,
             },
         });
-        res.send({rows: data})
+        res.send({rows: data});
     } catch (error) {
         console.log(error);
         next(error);

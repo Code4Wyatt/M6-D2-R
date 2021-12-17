@@ -4,6 +4,8 @@ import cors from "cors";
 import { connectDB } from "./utils/db/index.js";
 import productRouter from "./services/product/routes.js";
 import reviewRouter from "./services/review/routes.js";
+import cartRouter from "./services/cart/routes.js";
+import usersRouter from "./services/users/routes.js";
 
 const server = express();
 
@@ -12,6 +14,8 @@ server.use(cors());
 
 server.use("/product", productRouter);
 server.use("/review", reviewRouter);
+server.use("/user", usersRouter);
+server.use("/cart", cartRouter);
 
 server.listen(process.env.PORT || 5432, async () => {
     console.log("Server is running!");
