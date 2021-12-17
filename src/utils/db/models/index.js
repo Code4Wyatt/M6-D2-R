@@ -22,4 +22,4 @@ Category.belongsToMany(Product, {
     onDelete: "CASCADE",
 });
 
-export default { Category, Product, Review, User, ProductCategory };
+export { Category, Product, Review, User, ProductCategory };
