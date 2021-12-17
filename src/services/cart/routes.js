@@ -25,4 +25,18 @@ cartRouter.get("/", async (req, res, next) => {
     }
 });
 
+cartRouter.delete("/:id", async (req, res, next) => {
+    try {
+        const data = await Cart.destroy({
+            where: { 
+                id: req.params.id,
+            },
+        });
+        res.send({rows: data})
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
 export default cartRouter;
