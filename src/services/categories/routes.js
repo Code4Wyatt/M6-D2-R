@@ -1,6 +1,5 @@
 import express from "express";
-import { articles } from "../../data/articles.js";
-import { Article, User, Review, Category } from "../../utils/db/models/index.js";
+import { Product, User, Review, Category } from "../../utils/db/models/index.js";
 import { Op } from "sequelize";
 
 const categoryRouter = express.Router();
