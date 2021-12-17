@@ -1,20 +1,16 @@
-import { Sequelize } from "sequelize";
+import Sequelize from "sequelize";
 
-const { PGDATABASE, PGUSER, PGPASSWORD, PGPORT, PGHOST, NODE_ENV } = process.env;
+const { HEROKU_URI } = process.env;
 
-const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
-    port: PGPORT,
-    host: PGHOST,
-    dialect: "postgres",
-   ...(NODE_ENV === "production" && {
-       dialectOptions: {
-           ssl: true,
-           ssl: {
-               required: true,
-               rejectUnAuthorized: false,
-           },
-       },
-   }),
+const sequelize = new Sequelize(HEROKU_URI, {
+    dialect: 'postgres',
+    dialectOptions: {         // IMPORTANT
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
+  
 });
 
 export const connectDB = async() => {
