@@ -8,6 +8,7 @@ const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
     dialect: "postgres",
    ...(NODE_ENV === "production" && {
        dialectOptions: {
+           ssl: true,
            ssl: {
                required: true,
                rejectUnAuthorized: false,

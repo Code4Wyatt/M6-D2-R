@@ -19,10 +19,9 @@ server.use("/review", reviewRouter);
 server.use("/user", usersRouter);
 server.use("/cart", cartRouter);
 
-
 server.listen(process.env.PORT || 5432, async () => {
     console.log("Server is running!");
     await connectDB();
-})
+});
 
 server.on("error", (error) => console.log("Server is not running due to following error: ", error));
