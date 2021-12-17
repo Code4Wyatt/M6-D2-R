@@ -27,13 +27,14 @@ productRouter.get("/", async (req, res, next) => {
     }
 });
 
-// Get All Products
+// Get First 10 Acoustic Guitar Products
 productRouter.get("/acoustic", async (req, res, next) => {
     try {
         const allProductsByCategory = await Product.findAll( {where: {
             category:"Acoustic"
         },
-        include: [ ProductCategory ]});
+        include: [ ProductCategory ]},
+        {limit: 10});
         res.send(allProductsByCategory);
     } catch (error) {
         res.status(500).send({ message: error.message });
