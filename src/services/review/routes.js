@@ -1,5 +1,5 @@
 import express from "express";
-import {Product, Review} from "../../utils/db/models/index.js";
+import {Product, User, Review} from "../../utils/db/models/index.js";
 import { Op } from "sequelize";
 
 const reviewRouter = express.Router();
@@ -16,7 +16,7 @@ reviewRouter.post("/", async (req, res, next) => {
 
 reviewRouter.get("/", async (req, res, next) => {
     try {
-        const data = await Review.findAll({ include: [Article, User]});
+        const data = await Review.findAll({ include: [Product, User]});
         res.send(data);
     } catch (error) {
         console.log(error);
