@@ -25,6 +25,20 @@ cartRouter.get("/", async (req, res, next) => {
     }
 });
 
+cartRouter.put("/:id", async (req, res, next) => {
+    try {
+        const updateCart = await Cart.update(req.body, {
+            where: { id: req.params.id },
+            returning: true,
+        });
+
+        res.send(updateCart);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
 cartRouter.delete("/:id", async (req, res, next) => {
     try {
         const data = await Cart.destroy({
