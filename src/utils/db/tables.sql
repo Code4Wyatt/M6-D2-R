@@ -26,3 +26,27 @@ CREATE TABLE IF NOT EXISTS review
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+
+CREATE TABLE IF NOT EXISTS categories
+(
+    category_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    category_name text NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+)
+
+CREATE TABLE IF NOT EXISTS users
+(
+    user_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    name text NOT NULL,
+    lastName integer NOT NULL,
+    email text NOT NULL,
+    age integer NOT NULL,
+    country text NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+)
+
+CREATE TABLE IF NOT EXISTS cart
+(
+    product_id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+)
